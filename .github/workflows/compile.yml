@@ -20,8 +20,9 @@ jobs:
     - name: Restore NuGet Packages
       run: nuget restore gCardTool.sln
 
-    - name: Build the App
-      run: msbuild gCardTool.sln /p:Configuration=Release /p:OutDir="${{ github.workspace }}\_Output\\"
+        - name: Build the App
+      run: msbuild gCardTool.sln /p:Configuration=Release /p:OutDir="${{ github.workspace }}\_Output\\" /p:SignManifests=false /p:SignAssembly=false
+
 
     - name: Save the Compiled Software
       uses: actions/upload-artifact@v4
