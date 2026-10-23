@@ -1,0 +1,30 @@
+name: Build Legacy C# Project
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v1
+
+    - name: Restore NuGet Packages
+      run: nuget restore gCardTool.sln
+
+    - name: Build the App
+      run: msbuild gCardTool.sln /p:Configuration=Release /p:OutDir="${{ github.workspace }}\_Output\\"
+
+    - name: Save the Compiled Software
+      uses: actions/upload-artifact@v4
+      with:
+        name: Compiled-App
+        path: _Output/
